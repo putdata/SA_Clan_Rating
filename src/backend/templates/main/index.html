@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block static_file %}
+<style>
+.search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 325px;
+    background-color: rgb(70, 46, 80);
+    color: white;
+    text-align: center;
+}
+
+.sacode-logo {
+    width: 390px;
+}
+
+.search-player {
+    display: flex;
+    width: 580px;
+    height: 45px;
+    margin-top: 24px;
+    background: transparent;
+}
+
+.search-player button {
+    width: 20%;
+    border-radius: 0 8px 8px 0;
+    background-color: rgb(44, 26, 66);
+    border-color: rgb(44, 26, 66);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.search-player button:hover {
+    background-color: white;
+    color: rgb(44, 26, 66);
+    border-color: white;
+    border-left-color: rgb(44, 26, 66);
+}
+
+.player-input {
+    width: 80%;
+    border: none;
+    border-radius: 8px 0 0 8px;
+    text-align: center;
+    outline: none;
+    font-size: 20px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.main-context {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 1024px;
+}
+
+@media screen and (max-width: 610px) {
+    .main-context {
+        width: 100%;
+    }
+    .search-container {
+        height: 280px;
+    }
+    .search-container div img {
+        width: 95%;
+    }
+    .search-player {
+        width: 95%;
+    }
+    .search-player input {
+        font-size: 14px;
+    }
+    .search-player button {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 611px) and (max-width: 1024px) {
+    .main-context {
+        width: 100%;
+    }
+    .search-player {
+        width: 95%;
+    }
+    .search-player {
+        width: 580px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block section %}
+<div class="search-container">
+    {% load static %}
+    <div><img src="{% static 'img/logo.png' %}" class="sacode-logo"></div>
+    <div class="search-player">
+        <input class="player-input" maxlength="20" type="text" title="플레이어 검색" placeholder="플레이어 이름 또는 병영수첩 고유번호">
+        <button type="button" class="btn" id="btn_search">검색</button>
+    </div>
+</div>
+<div class="main-container">
+    <div class="main-context">
+        <div style="font-size: 20px; font-weight: bold;">서든코드 오픈베타</div><br>
+        <a href="https://cafe.naver.com/sacode" target="_blank"><button type="button" style="font-size: 16px;">네이버 카페</button></a>
+        <p>카카오톡 플러스친구 '서든코드' 검색</p>
+        <br><br>
+        <p>STATS, BOARD는 서비스 준비중에 있습니다.</p>
+        <p>사이트 오류 및 피드백 등은 카카오톡 혹은 카페를 통해 전달부탁드립니다.</p>
+    </div>
+</div>
+<script>
+    $('#btn_search').click(function(e) {
+        word = $('.player-input').val();
+        if(word != '') {
+            $.ajax({
+                type: "GET",
+                url: "/search/" + word,
+                dataType: "json",
+                success: function(res) {
+                    if(res.status == 'success') {
+                        window.location.href = '/player/' + res.id;
+                    } else {
+                        swal('', "존재하지 않는 플레이어입니다.", "warning");
+                    }
+                },
+            });
+        }
+    });
+</script>
+{% endblock %}

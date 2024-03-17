@@ -1,0 +1,47 @@
+.btn {
+    outline: none;
+    font-size: 16px;
+    border: solid 1px white;
+}
+.btn:hover {
+    transition: .4s;
+    cursor: pointer;
+}
+
+/* INDEX CSS */
+.sign {
+    height: 70%;
+    color: white;
+    background-color: rgb(135, 42, 97);
+    border-radius: 8px;
+}
+.sign:hover {
+    color: rgb(135, 42, 97);
+    background-color: white;
+    border-color: rgb(135, 42, 97);
+}
+
+/* SIGNIN CSS */
+.signin {
+    color: white;
+    background-color: rgb(146, 50, 133);
+    border-radius: 8px;
+    font-weight: bold;
+}
+.signin:hover {
+    color: rgb(146, 50, 133);
+    background-color: white;
+    border-color: rgb(146, 50, 133);
+}
+
+.signup {
+    color: white;
+    background-color: rgb(135, 42, 97);
+    border-radius: 8px;
+    font-weight: bold;
+}
+.signup:hover {
+    color: rgb(135, 42, 97);
+    background-color: white;
+    border-color: rgb(135, 42, 97);
+}

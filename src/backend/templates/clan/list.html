@@ -1,0 +1,21 @@
+{% for clan in clan_list %}
+{% load clan_tags %}
+<tr>
+    <td class="td-rank">{% rank forloop.counter %}</td>
+    <td class="td-clan">
+        <div class="clan-mark_name">
+            <img src="http://img.sa.nexon.com/sa/clan/mark/{{ clan.mark_b }}">
+            <img src="http://img.sa.nexon.com/sa/clan/mark/{{ clan.mark_f }}">
+            <a href="clan/{{ clan.clan_id }}">{{ clan.clan_name }}</a>
+        </div>
+    </td>
+    <td class="td-tier"><div class="tier {{ clan_tier }}">{{ clan_tier }}</div></td>
+    <td class="td-point">{{ clan.rating }}</td>
+    <td class="td-rate">
+        <div style="position: relative; margin: 0 5px; background: rgb(255, 123, 0); border-radius: 8px;">
+            <div style="width: {% w_rate clan.win clan.lose %}%; height: 20px; background: rgb(0, 183, 255); border-radius: 7px;"></div>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: white; font-size: 12px; font-weight: bold;">{% w_rate clan.win clan.lose %}%</div>
+        </div>
+    </td>
+</tr>
+{% endfor %}

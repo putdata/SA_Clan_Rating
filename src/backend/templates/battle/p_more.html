@@ -1,0 +1,54 @@
+{% for match in matches %}
+    {% get_p_oppo_clan match.is_winner match.battle_no as o_clan %}
+    {% if match.is_winner %}
+    <match class="win">
+        <div class="match-header">
+            <div class="match-result win">승</div>
+            <div class="match-vs">상대</div>
+            <div class="match-with">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_b }}">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_f }}">
+                <a href="/clan/{{ o_clan.clan_id }}">{{ o_clan.clan_name }}</a>
+            </div>
+            <div class="match-about">
+                {% if match.is_promo %}
+                <div>승급전</div>
+                {% endif %}
+                <div>{% get_p_point match.is_winner match.battle_no %}</div>
+                <div>{% get_time match.battle_no %}</div>
+            </div>
+        </div>
+    {% else %}
+    <match class="lose">
+        <div class="match-header">
+            <div class="match-result lose">패</div>
+            <div class="match-vs">상대</div>
+            <div class="match-with">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_b }}">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_f }}">
+                <a href="/clan/{{ o_clan.clan_id }}">{{ o_clan.clan_name }}</a>
+            </div>
+            <div class="match-about">
+                {% if match.is_promo %}
+                <div>승급전</div>
+                {% endif %}
+                <div>{% get_p_point match.is_winner match.battle_no %}</div>
+                <div>{% get_time match.battle_no %}</div>
+            </div>
+        </div>
+    {% endif %}
+        <div class="match-section" id="{{ match.battle_no }}">
+            <div class="match-summary" id="{{ match.battle_no }}">
+                <div>{{ match.kill }}킬 {{ match.death }}데스</div>
+                {% if match.is_mom %}
+                <div class="match-mom">MOM</div>
+                {% endif %}
+                {% if match.rejoin %}
+                <div class="match-rejoin">REJOIN</div>
+                {% endif %}
+            </div>
+            <div class="match-detail" id="{{ match.battle_no }}" style="display: none;"></div>
+        </div>
+        <div class="match-footer" id="{{ match.battle_no }}">MORE DETAIL</div>
+    </match>
+{% endfor %}

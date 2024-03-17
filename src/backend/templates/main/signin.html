@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>{{title}}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}"/>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800');
+* { font-family: 'Nanum Gothic' }
+
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(rgb(133, 80, 128),rgb(91,46,87));
+}
+input {
+    box-shadow: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.logo {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo img {
+    height: 150px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 500px;
+    padding: 50px;
+    box-sizing: border-box;
+    background: rgba(255,255,255,.1);
+    border-radius: 0.5em;
+}
+
+.input-box {
+    position: relative;
+    margin-top: 20px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1em;
+    color: white;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: solid 1px white;
+}
+
+.input-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 1em;
+    color: white;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-box input:focus ~ label {
+    top: -18px;
+    color: rgba(255,255,255,.5);
+    font-size: 0.85em;
+}
+
+.input-box input:valid ~ label {
+    top: -18px;
+    color: rgba(255,255,255,.5);
+    font-size: 0.85em;
+}
+
+.signin {
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+}
+
+.signup {
+    margin-top: 5px;
+    width: 100%;
+    height: 40px;
+}
+
+@media screen and (max-width: 767px) {
+    .form-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .logo img {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <a href="/" class="logo"><img src="/static/img/logo.png"></a>
+            <form method="POST" onsubmit="return input_check();" autocomplete="off">
+                {% csrf_token %}
+                <div class="err_msg" style="font-size: 1em; color: white;">{{err_msg}}</div>
+                <div class="input-box">
+                    <input type="text" id="user_id" name="user_id" maxlength="50" required>
+                    <label>EMAIL</label>
+                </div>
+                <div class="input-box">
+                    <input type="password" id="user_pw" name="user_pw" maxlength="50" required>
+                    <label>PASSWORD</label>
+                </div>
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <input type="submit" class="btn signin" value="로그인">
+            </form>
+            <button type="button" class="btn signup" onclick="location.href='signup'">회원가입</button>
+            <div style="margin-top: 20px;">
+                <div style="text-align: right; color: rgb(180, 135, 177);">PUBLISHED BY 리똔쓰나이퍼</div>
+            </div>
+        </div>
+    </div>
+
+<script>
+function input_check() {
+    var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    var regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()-+=])(?=.*[0-9]).{6,20}$/;
+    if($('#user_id').val() == '') {
+        $('.err_msg').text('이메일 주소를 입력하세요.');
+        $('#user_id').focus();
+        return false;
+    } else if(!regEmail.test($("#user_id").val())) {
+        $('.err_msg').text('옳바른 이메일 주소 형식이 아닙니다.');
+        return false;
+    } else if($('#user_pw').val().length < 6 || $('#user_pw').val().length > 20) {
+        $('.err_msg').text('비밀번호는 6~20자리입니다.');
+        $('#user_pw').focus();
+        return false;
+    } else if (!regPass.test($('#user_pw').val())) {
+        $('.err_msg').text('비밀번호는 숫자, 문자, 특수문자를 포함해야 합니다.');
+        return false;
+    }
+    return true;
+}
+</script>
+
+</body>
+</html>

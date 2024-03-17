@@ -1,0 +1,740 @@
+{% extends "base.html" %}
+
+{% block static_file %}
+<style>
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+.match-wrapped {
+    margin-left: 5px;
+}
+.clan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    margin: 30px 0;
+    padding: 5px 0;
+    animation: animate 8s linear infinite;
+}
+.clan-container.bronze {
+    background : linear-gradient(90deg, rgb(134, 54, 0), rgba(134, 54, 0, 0.5), rgb(134, 54, 0));
+    background-size: 400%;
+}
+.clan-container.silver {
+    background : linear-gradient(90deg, rgb(145, 145, 145), rgba(145, 145, 145, 0.5), rgb(145, 145, 145));
+    background-size: 400%;
+}
+.clan-container.gold {
+    background : linear-gradient(90deg, rgb(255, 206, 72), rgba(255, 206, 72, 0.5), rgb(255, 206, 72));
+    background-size: 400%;
+}
+.clan-container.diamond {
+    background : linear-gradient(90deg, rgb(0, 110, 255), rgba(0, 110, 255, 0.5), rgb(0, 110, 255));
+    background-size: 400%;
+}
+.clan-container.legend {
+    background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet,red);
+    background-size: 400%;
+}
+@keyframes animate {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 400%;
+    }
+}
+.match-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+    margin-top: 25px;
+}
+.match-ad {
+    margin-top: 30px;
+    height: 150px;
+}
+.match-ad > img {
+    height: 100%;
+}
+clan {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+}
+clan > div {
+    background: rgba(0, 0, 0, 0.7);
+}
+.clan-tier {
+    background: transparent;
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+.clan-name {
+    display: flex;
+    align-items: center;
+}
+.clan-mark {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    margin: 5px;
+}
+.clan-mark img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 52px;
+    height: 52px;
+}
+.clan-name > div {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+}
+.clan-state {
+    display: flex;
+}
+.clan-state > div {
+    margin: 5px;
+    margin-right: 0;
+    padding: 5px;
+    background: rgba(255,255,255, 0.3);
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+.clan-record {
+    display: flex;
+    flex-direction: column;
+}
+.clan-record > div {
+    margin: 0 5px;
+    padding: 5px;
+    background: rgba(255,255,255, 0.3);
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+.clan-record > div:last-child {
+    margin-bottom: 5px;
+}
+
+.clan-container > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.clan-pview {
+    margin: 5px;
+    padding: 5px 0;
+    background: rgba(255,255,255, 0.3);
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.clan-tplayer {
+    display: none;
+    margin: 0 5px;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: white;
+}
+.clan-tplayer.active {
+    display: table;
+}
+.clan-tplayer th {
+    height: 40px;
+    padding: 0;
+}
+.clan-tplayer th:first-child {
+    padding-left: 5px;
+    text-align: left;
+}
+.clan-tplayer td:first-child {
+    text-align: left;
+    padding-left: 5px;
+}
+.clan-tplayer td:last-child {
+    width: 40%;
+}
+
+match {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+    width: calc(100% - 10px);
+    border: solid 2px gray;
+}
+match.win {
+    background: rgb(23, 170, 255);
+    border: solid 2px rgb(0, 126, 199);
+}
+match.lose {
+    background: rgb(255, 115, 115);
+    border: solid 2px rgb(190, 83, 76);
+}
+.match-header {
+    display: flex;
+    position: relative;
+}
+.match-result {
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 30px;
+}
+.match-result.win {
+    background: rgb(0, 126, 199);
+}
+.match-result.lose {
+    background: rgb(190, 83, 76);
+}
+.match-vs {
+    line-height: 30px;
+    margin: 0 5px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5)
+}
+.match-with {
+    position: relative;
+    display: flex;
+    height: 30px;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 29px;
+}
+.match-with img {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 24px;
+    height: 24px;
+}
+.match-with a {
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 30px;
+    color: rgb(255, 255, 255);
+}
+.match-about {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    margin-right: 5px;
+    font-size: 12px;
+    color: white;
+}
+.match-about > div {
+    margin-left: 4px;
+    padding: 3px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.match-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.match-section > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.match-mom {
+    margin-left: 5px;
+    font-size: 12px;
+    padding: 2px;
+    background-color: gold;
+    border-radius: 5px;
+}
+.match-rejoin {
+    margin-left: 5px;
+    font-size: 12px;
+    padding: 3px 3px 1px 3px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+.player-table {
+    margin: 0 5px;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: white;
+}
+.player-table th {
+    height: 40px;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+.player-table th:first-child {
+    padding-left: 5px;
+    text-align: left;
+}
+.player-table td {
+    padding: 5px 0;
+    border-top: solid 1px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
+}
+.player-table tbody tr:first-child {
+    border-top: solid 2px rgba(0, 0, 0, 0.3);
+}
+
+.td-tier {
+    width: 30%;
+}
+.td-tier .tier {
+    margin: 0;
+}
+.td-kill {
+    width: 10%;
+}
+.td-death {
+    width: 10%;
+}
+.player-mark_name {
+    display: flex;
+    position: relative;
+    height: 20px;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 35px;
+    margin-left: 5px;
+}
+.player-mark_name img {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 30px;
+    height: 30px;
+}
+.player-mark_name a {
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 20px;
+    color: white;
+}
+.tier {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 3px;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.tier.bronze {
+    background: rgb(134, 54, 0);
+    border: solid 1px rgb(97, 39, 0);
+}
+.tier.silver{
+    background: rgb(180, 180, 180);
+    border: solid 1px rgb(133, 133, 133);
+}
+.tier.gold {
+    background: rgb(255, 206, 72);
+    border: solid 1px rgb(177, 137, 29);
+}
+.tier.diamond {
+    background: rgb(0, 110, 255);
+    border: solid 1px rgb(0, 74, 172);
+}
+.tier.legend {
+    background: linear-gradient(45deg, red, orange , yellow, green, cyan, blue, violet);
+    border: solid 1px transparent;
+}
+
+
+.match-footer {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px 0;
+    font-size: 12px;
+    color: white;
+    background: rgba(0, 0, 0, 0.2);
+    border: solid 1px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.match-getmore {
+    width: calc(100% - 9px);
+    text-align: center;
+    padding: 5px 0;
+    margin: 5px 0 0 3px;
+    border: solid 2px grey;
+    color: grey;
+    font-weight: bold;
+}
+
+.clan-comment_wrap {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+}
+.clan-comment_wrap > div:first-child {
+    text-align: center;
+}
+
+.clan-comment_add {
+    margin: 5px;
+    width: calc(100% - 10px);
+}
+.clan-comment_add > div {
+    display: flex;
+}
+.clan-comment_add > div input {
+    width: 80%;
+    padding-left: 3px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+.clan-comment_add > div > div {
+    width: 20%;
+    padding: 3px 0;
+    text-align: center;
+    background-color: rgba(255,255,255, 0.3);
+}
+
+.clan-comments {
+    height: 150px;
+    margin: 5px;
+    margin-bottom: 0px;
+    overflow: scroll;
+}
+.clan-comments > .comment_wrap:last-child {
+    margin: 0px;
+}
+.comment_wrap {
+    margin-bottom: 5px;
+    padding: 3px;
+    background-color: rgba(255, 255, 255, 0.3)
+}
+.comment-header {
+    display: flex;
+}
+.comment-header > div:first-child {
+    font-weight: bold;
+}
+.comment-header > div:last-child {
+    font-size: 12px;
+    padding-left: 5px;
+    padding-top: 2px;
+}
+.comment-body {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+@media screen and (min-width: 600px) and (max-width: 999px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .match-wrapped {
+        margin: 0;
+    }
+}
+@media screen and (min-width: 400px) and (max-width: 599px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .match-wrapped {
+        margin: 0;
+        width: 100%;
+    }
+    .match-container {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 399px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .clan-wrapped {
+        width: 100%;
+    }
+    .match-wrapped {
+        margin: 0;
+        width: 100%;
+    }
+    .clan-container {
+        width: 100%;
+    }
+    .match-container {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block section %}
+<div class="container">
+    {% load clan_tags %}
+    <div class="clan-wrapped">
+        <div class="clan-container {% clan_tier clan False %}">
+            <clan>
+                <div class="clan-tier">{% clan_tier clan True %}</div>
+                <div class="clan-name">
+                    <div class="clan-mark">
+                        <img src="http://img.s.nx.com/sa/clan/mark/{{ clan.mark_b }}">
+                        <img src="http://img.s.nx.com/sa/clan/mark/{{ clan.mark_f }}">
+                    </div>
+                    <div>{{ clan.clan_name }}</div>
+                </div>
+                <div class="clan-state">
+                    <div class="rank">RANK : {% clan_rank clan %}</div>
+                    <div class="point">POINT : {{ clan.rating }}</div>
+                </div>
+                <div class="clan-record">
+                    <div>전적 : {% total_record clan.win clan.lose %}전 {{ clan.win }}승 {{ clan.lose }}패</div>
+                    <div>
+                        <div style="position: relative; width: 100%; margin: 0; background: rgb(255, 123, 0); border-radius: 8px; border: solid 1px rgba(255,255,255);">
+                            <div style="width: {% w_rate clan.win clan.lose %}%; height: 20px; background: rgb(0, 183, 255); border-radius: 7px;"></div>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: white; font-size: 12px; font-weight: bold;">{% w_rate clan.win clan.lose %}%</div>
+                        </div>
+                    </div>
+                </div>
+                {% if clan.l_win > 0 or clan.l_lose > 0 %}
+                <div class="clan-record legend">
+                    <div>레전드 전적 : {% total_record clan.l_win clan.l_lose %}전 {{ clan.l_win }}승 {{ clan.l_lose }}패</div>
+                    <div>
+                        <div style="position: relative; width: 100%; margin: 0; background: rgb(255, 123, 0); border-radius: 8px; border: solid 1px rgba(255,255,255);">
+                            <div style="width: {% w_rate clan.l_win clan.l_lose %}%; height: 20px; background: rgb(0, 183, 255); border-radius: 7px;"></div>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: white; font-size: 12px; font-weight: bold;">{% w_rate clan.l_win clan.l_lose %}%</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </clan>
+
+            <div class="clan-plist">
+                <table class="clan-tplayer">
+                    <thead>
+                        <tr>
+                            <th>PLAYER</th>
+                            <th>TIER</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in players %}
+                        <tr>
+                            <td><a href="/player/{{ player.player_id }}" style="text-decoration: none; color: white;">{{ player.name }}</a></td>
+                            <td><div class="tier {% player_tier player False %}">{% player_tier player True %} {{ player.tier_rank }}</div></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="clan-pview">클랜원 목록 열기</div>
+            </div>
+
+            <div class="clan-comment_wrap">
+                <div style="font-weight: bold;">방명록</div>
+                <div class="clan-comment_add">
+                    <input type="checkbox" id="is_anony" name="anony" checked>
+                    <label for="is_anony">익명</label>
+                    <div>
+                        <input id="comment-text" type="text" name="text" maxlength="30">
+                        <div class="btn_comment">작성</div>
+                    </div>
+                </div>
+                <div class="clan-comments">
+                    {% for comment in comments %}
+                        <div class="comment_wrap">
+                            <div class="comment-header">
+                                {% if comment.anonymous and not request.session.sudo %}
+                                    <div>익명</div>
+                                {% elif 'sudo' in request.session %}
+                                    <div>익명({% get_user_name comment.user_id %})</div>
+                                {% else %}
+                                    <div>{% get_user_name comment.user_id %}</div>
+                                {% endif %}
+                                <div>{% get_DH_time comment.created_at %}</div>
+                            </div>
+                            <div class="comment-body">{{ comment.text }}</div>
+                        </div>
+                    {% endfor %}
+                    <div class="c_get_more">더 불러오기</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="match-wrapped">
+        <!--<div class="match-ad">
+        </div>-->
+        <div class="match-container">
+            {% for match in matches %}
+                {% is_winner match.clan_id match.battle_no as b_winner %}
+                {% get_oppo_clan match.clan_id match.battle_no as o_clan %}
+                {% if b_winner %}
+                <match class="win">
+                    <div class="match-header">
+                        <div class="match-result win">승</div>
+                        <div class="match-vs">상대</div>
+                        <div class="match-with">
+                            <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_b }}">
+                            <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_f }}">
+                            <a href="/clan/{{ o_clan.clan_id }}">{{ o_clan.clan_name }}</a>
+                        </div>
+                        <div class="match-about">
+                            <div>{% get_point match.clan_id match.battle_no %}</div>
+                            <div>{% get_time match.battle_no %}</div>
+                        </div>
+                    </div>
+                {% else %}
+                <match class="lose">
+                    <div class="match-header">
+                        <div class="match-result lose">패</div>
+                        <div class="match-vs">상대</div>
+                        <div class="match-with">
+                            <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_b }}">
+                            <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_f }}">
+                            <a href="/clan/{{ o_clan.clan_id }}">{{ o_clan.clan_name }}</a>
+                        </div>
+                        <div class="match-about">
+                            <div>{% get_point match.clan_id match.battle_no %}</div>
+                            <div>{% get_time match.battle_no %}</div>
+                        </div>
+                    </div>
+                {% endif %}
+                    <div class="match-section" id="{{ match.battle_no }}"></div>
+                    <div class="match-footer" id="{{ match.battle_no }}">VIEW</div>
+                </match>
+            {% endfor %}
+        </div>
+        <div class="match-getmore">더 불러오기</div>
+    </div>
+</div>
+<script>
+    $('.clan-pview').click(function(e) {
+        $('.clan-tplayer').toggleClass('active');
+        if(e.target.textContent == '클랜원 목록 열기') {
+            $(this).text('클랜원 목록 닫기');
+        } else {
+            $(this).text('클랜원 목록 열기');
+        }
+    });
+    $('.match-container').on('click', '.match-footer',function match_view(e) {
+        if($('.match-section[id='+e.target.id+']').text() == '') {
+            $.ajax({
+                type: 'GET',
+                url: '/battle/'+e.target.id,
+                success: function(response) {
+                    $('.match-section[id='+e.target.id+']').html(response);
+                    $(e.target).text('CLOSE');
+                }
+            });
+        } else {
+            if(e.target.textContent == 'VIEW') {
+                $('.match-section[id='+e.target.id+']').css('display', 'block');
+                $(e.target).text('CLOSE');
+            } else {
+                $('.match-section[id='+e.target.id+']').css('display', 'none');
+                $(e.target).text('VIEW');
+            }
+        }
+    });
+
+    $('.match-getmore').click(function(e) {
+        var len_m = document.getElementsByTagName('match').length;
+        if(len_m < {% total_record clan.win clan.lose %}) {
+            $.ajax({
+                type: 'GET',
+                url: '/battle/c/{{ clan.clan_id }}/' + len_m,
+                success: function(response) {
+                    $('.match-container').append(response);
+                }
+            });
+        } else {
+            $(this).css('display', 'none');
+        }
+    });
+
+    $('.btn_comment').click(function(e) {
+        var $content = $('#comment-text');
+        var $is_anony = $('#is_anony');
+        if($content.val() == '') {
+            alert('내용을 입력하세요.')
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/clan/{{ clan.clan_id }}/new_c",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'text': $content.val(),
+                    'anony': $is_anony.is(':checked')
+                },
+                dataType: "json",
+                success: function(response) {
+                    if(response.status == "success") {
+                        var new_comment = '<div class="comment_wrap"><div class="comment-header">';
+                        if(response.anony == 'true') {
+                            new_comment += '<div>익명</div>';
+                        } else {
+                            new_comment += '<div>' + response.name + '</div>';
+                        }
+                        new_comment += '<div>' + response.time + '</div></div><div class="comment-body">' + response.text + '</div></div>';
+                        $('.clan-comments').prepend(new_comment);
+                    } else {
+                        alert('작성한지 1시간이 지난 후 작성할 수 있습니다.')
+                    }
+                },
+                error: function(request, status, error) {
+                    alert('로그인 후 이용하세요.');
+                },
+            });
+        }
+    });
+
+    $('.c_get_more').click(function(e) {
+        var len_c = document.getElementsByClassName('comment_wrap').length;
+        $.ajax({
+            type: "GET",
+            url: "/clan/{{ clan.clan_id }}/get_c/" + len_c,
+            success: function(res) {
+                if(res.status == 'fail') {
+                    $('.c_get_more').css('display', 'none');
+                }
+                for(var i=0; i<res.length; i++) {
+                    var new_comment = '<div class="comment_wrap"><div class="comment-header">';
+                    new_comment += '<div>' + res[i].name +'</div>';
+                    new_comment += '<div>' + res[i].time + '</div></div><div class="comment-body">' + res[i].text + '</div></div>';
+                    $('.c_get_more').before(new_comment);
+                }
+            },
+        });
+    });
+</script>
+{% endblock %}

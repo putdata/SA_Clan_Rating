@@ -1,0 +1,105 @@
+{% load player_tags %}
+<div id="winner">
+    <div style="display:flex; margin-top: 5px; margin-left: 5px;">
+        <div style="width: 150px; padding: 5px 0; background: rgba(0, 0, 0, 0.2); color: white; font-weight: bold; font-size: 16px; text-align: center;">{{ winner }}</div>
+    </div>
+    <table class="player-table">
+        <thead>
+            <tr>
+                <th>PLAYER</th>
+                <th>TIER</th>
+                <th>KILL</th>
+                <th>DEATH</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for w_player in w_detail %}
+            {% get_player w_player.player_id as p %}
+                {% if p.clan_id %}
+                    {% get_clan p.clan_id as p_clan %}
+                    <tr>
+                        <td class="td-player">
+                            <div class="player-mark_name">
+                                <img src="http://img.s.nx.com/sa/clan/mark/{{ p_clan.mark_b }}">
+                                <img src="http://img.s.nx.com/sa/clan/mark/{{ p_clan.mark_f }}">
+                                <a href="/player/{{ p.player_id }}">{{ p.name }}</a>
+                                {% if w_player.is_mom %}
+                                <div class="match-mom">M</div>
+                                {% endif %}
+                                {% if w_player.rejoin %}
+                                <div class="match-rejoin">R</div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="td-tier"><div class="tier {% player_tier p False %}">{% player_tier p True %} {{ p.tier_rank }}</div></td>
+                        <td class="td-kill">{{ w_player.kill }}</td>
+                        <td class="td-death">{{ w_player.death }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="td-player">
+                            <div class="player-mark_name">
+                                <a href="/player/{{ p.player_id }}">{{ p.name }}</a>
+                                {% if w_player.is_mom %}
+                                <div class="match-mom">M</div>
+                                {% endif %}
+                                {% if w_player.rejoin %}
+                                <div class="match-rejoin">R</div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="td-tier"><div class="tier {% player_tier p False %}">{% player_tier p True %} {{ p.tier_rank }}</div></td>
+                        <td class="td-kill">{{ w_player.kill }}</td>
+                        <td class="td-death">{{ w_player.death }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="loser">
+    <div style="display:flex; margin-top: 5px; margin-left: 5px;">
+        <div style="width: 150px; padding: 5px 0; background: rgba(0, 0, 0, 0.2); color: white; font-weight: bold; font-size: 16px; text-align: center;">{{ loser }}</div>
+    </div>
+    <table class="player-table">
+        <thead>
+            <tr>
+                <th>PLAYER</th>
+                <th>TIER</th>
+                <th>KILL</th>
+                <th>DEATH</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for l_player in l_detail %}
+            {% get_player l_player.player_id as p %}
+                {% if p.clan_id %}
+                    {% get_clan p.clan_id as p_clan %}
+                    <tr>
+                        <td class="td-player">
+                            <div class="player-mark_name">
+                                <img src="http://img.s.nx.com/sa/clan/mark/{{ p_clan.mark_b }}">
+                                <img src="http://img.s.nx.com/sa/clan/mark/{{ p_clan.mark_f }}">
+                                <a href="/player/{{ p.player_id }}">{{ p.name }}</a>
+                            </div>
+                        </td>
+                        <td class="td-tier"><div class="tier {% player_tier p False %}">{% player_tier p True %} {{ p.tier_rank }}</div></td>
+                        <td class="td-kill">{{ l_player.kill }}</td>
+                        <td class="td-death">{{ l_player.death }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="td-player">
+                            <div class="player-mark_name">
+                                <a href="/player/{{ p.player_id }}">{{ p.name }}</a>
+                            </div>
+                        </td>
+                        <td class="td-tier"><div class="tier {% player_tier p False %}">{% player_tier p True %} {{ p.tier_rank }}</div></td>
+                        <td class="td-kill">{{ l_player.kill }}</td>
+                        <td class="td-death">{{ l_player.death }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

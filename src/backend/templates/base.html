@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>{{title}}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" href="/static/img/favicon.ico">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}"/>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    {% block static_file %}
+    {% endblock %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="nav_wrapped">
+                <a href="/" class="nav-mark"><img src="{% static 'img/icon.svg' %}" class="sacode-icon"></a>
+                <div class="nav-left">
+                    <a href="/clan">CLAN</a>
+                    <a class="notopen">STATS</a>
+                    <a class="notopen">BOARD</a>
+                </div>
+                <div class="nav-right">
+                    {% if 'user_id' in request.session %}
+                        <div class="user-profile">
+                            {% load user_tags %}
+                            {% user_set request.session.user_id as user %}
+                            <a href="" style="color: white; text-decoration: none;"><div>{{ request.session.name }}</div></a>
+                            <div>&nbsp;CASH: {{ user.cash }}</div>
+                        </div>
+                        <button type="button" class="btn sign" onclick="location.href='/signout?next={{ request.path }}'">SIGN OUT</button>
+                    {% else %}
+                        <button type="button" class="btn sign" onclick="location.href='/signin?next={{ request.path }}'">SIGN IN</button>
+                    {% endif %}
+                    <div class="toggle-menu">
+                        <div class="hamburger" onclick="menu_click()">
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <div class="sidebar-back"></div>
+                        <div class="sidebar">
+                                {% if 'user_id' in request.session %}
+                                <a href=""><div>ME</div></a>
+                                {% endif %}
+                                <a href="/clan"><div>CLAN</div></a>
+                                <a class="notopen"><div>STATS</div></a>
+                                <a class="notopen"><div>BOARD</div></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </header>
+    <section>
+        {% block section %}
+        {% endblock %}
+    </section>
+    <footer>
+        <div class="footer_wrapped">
+            <div class="footer-container">
+                <div class="footer-context"><a href="/service/tos">이용약관</a> &nbsp; <a href="/service/policy">개인정보처리방침</a></div><br><br>
+                <div class="footer-context">EMAIL : put_data@naver.com</div>
+                <div class="footer-context">카카오톡 플러스친구 '서든코드' 검색</div>
+                <div class="footer-context"><b>© SACODE</b></div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function menu_click() {
+            $('.hamburger').toggleClass('active');
+        }
+        $('.sidebar-back').click(function() {
+            $('.hamburger').toggleClass('active');
+        })
+        $('.notopen').click(function() {
+            swal('', '준비중에 있습니다.', 'error');
+        })
+    </script>
+</body>
+</html>

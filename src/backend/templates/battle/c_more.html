@@ -1,0 +1,44 @@
+{% for match in matches %}
+    {% is_winner match.clan_id match.battle_no as b_winner %}
+    {% get_oppo_clan match.clan_id match.battle_no as o_clan %}
+    {% if b_winner %}
+    <match class="win">
+        <div class="match-header">
+            <div class="match-result win">승</div>
+            <div class="match-vs">상대</div>
+            <div class="match-with">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_b }}">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_f }}">
+                <a href="/clan/{{ o_clan.clan_id }}">{{ o_clan.clan_name }}</a>
+            </div>
+            <div class="match-about">
+                {% if match.is_promo %}
+                <div>승급전</div>
+                {% endif %}
+                <div>{% get_point match.clan_id match.battle_no %}</div>
+                <div>{% get_time match.battle_no %}</div>
+            </div>
+        </div>
+    {% else %}
+    <match class="lose">
+        <div class="match-header">
+            <div class="match-result lose">패</div>
+            <div class="match-vs">상대</div>
+            <div class="match-with">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_b }}">
+                <img src="http://img.s.nx.com/sa/clan/mark/{{ o_clan.mark_f }}">
+                <a href="/clan/{{ o_clan.clan_id }}">{{ o_clan.clan_name }}</a>
+            </div>
+            <div class="match-about">
+                {% if match.is_promo %}
+                <div>승급전</div>
+                {% endif %}
+                <div>{% get_point match.clan_id match.battle_no %}</div>
+                <div>{% get_time match.battle_no %}</div>
+            </div>
+        </div>
+    {% endif %}
+        <div class="match-section" id="{{ match.battle_no }}"></div>
+        <div class="match-footer" id="{{ match.battle_no }}">VIEW</div>
+    </match>
+{% endfor %}
